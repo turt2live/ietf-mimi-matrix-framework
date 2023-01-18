@@ -1,0 +1,224 @@
+
+
+
+
+More Instant Messaging Interoperability                       T. Ralston
+Internet-Draft                          The Matrix.org Foundation C.I.C.
+Intended status: Informational                           18 January 2023
+Expires: 22 July 2023
+
+
+                    Matrix as a Messaging Framework
+               draft-ralston-mimi-matrix-framework-latest
+
+Abstract
+
+   This document describes how Matrix, an existing openly specified
+   decentralized protocol for secure interoperable communications, works
+   to create a framework for messaging.
+
+About This Document
+
+   This note is to be removed before publishing as an RFC.
+
+   The latest revision of this draft can be found at
+   https://turt2live.github.io/ietf-mimi-matrix-framework/draft-ralston-
+   mimi-matrix-framework.html.  Status information for this document may
+   be found at https://datatracker.ietf.org/doc/draft-ralston-mimi-
+   matrix-framework/.
+
+   Discussion of this document takes place on the More Instant Messaging
+   Interoperability Working Group mailing list (mailto:mimi@ietf.org),
+   which is archived at https://mailarchive.ietf.org/arch/browse/mimi/.
+   Subscribe at https://www.ietf.org/mailman/listinfo/mimi/.
+
+   Source for this draft and an issue tracker can be found at
+   https://github.com/turt2live/ietf-mimi-matrix-framework.
+
+Status of This Memo
+
+   This Internet-Draft is submitted in full conformance with the
+   provisions of BCP 78 and BCP 79.
+
+   Internet-Drafts are working documents of the Internet Engineering
+   Task Force (IETF).  Note that other groups may also distribute
+   working documents as Internet-Drafts.  The list of current Internet-
+   Drafts is at https://datatracker.ietf.org/drafts/current/.
+
+   Internet-Drafts are draft documents valid for a maximum of six months
+   and may be updated, replaced, or obsoleted by other documents at any
+   time.  It is inappropriate to use Internet-Drafts as reference
+   material or to cite them other than as "work in progress."
+
+   This Internet-Draft will expire on 22 July 2023.
+
+Copyright Notice
+
+   Copyright (c) 2023 IETF Trust and the persons identified as the
+   document authors.  All rights reserved.
+
+   This document is subject to BCP 78 and the IETF Trust's Legal
+   Provisions Relating to IETF Documents (https://trustee.ietf.org/
+   license-info) in effect on the date of publication of this document.
+   Please review these documents carefully, as they describe your rights
+   and restrictions with respect to this document.  Code Components
+   extracted from this document must include Revised BSD License text as
+   described in Section 4.e of the Trust Legal Provisions and are
+   provided without warranty as described in the Revised BSD License.
+
+Table of Contents
+
+   1.  Introduction
+   2.  Overall model
+     2.1.  Eventual Consistency
+   3.  Security Considerations
+   4.  IANA Considerations
+   5.  Informative References
+   Acknowledgments
+   Author's Address
+
+1.  Introduction
+
+   Matrix is an existing open standard suitable for Instant Messaging
+   (IM), Voice over IP (VoIP) signaling, Internet of Things (IoT)
+   communication, and bridging other existing communication platforms
+   together.  In this document we focus largely on the IM use case,
+   however the concepts can be applied to other forms of communication
+   as well.
+
+   The existing Matrix specification [MxSpec] is quite large as a whole,
+   it is easily broken down into reusable specifications for simpler and
+   more effective implementation.  Here, we specify the portion of
+   Matrix which forms the framework of messaging, leaving the remainder
+   of the open Matrix specification out of scope.
+
+   This document assumes some prior knowledge of federated or
+   decentralized systems, such as the principles of email.  This
+   document additionally references concepts from
+   [I-D.rosenberg-mimi-taxonomy] to build common understanding.
+
+2.  Overall model
+
+   At a high level, Matrix consists of 4 primary concepts:
+
+   *  Homeservers (also called "servers" for simplicity) contain user
+      accounts and handle the algorithms needed to support Rooms.
+
+   *  Users produce Events into Rooms through their Homeserver.
+
+   *  Rooms are a defined set of algorithms which govern how all servers
+      in that room behave and treat Events.
+
+   *  Events are pieces of information that make up a room.  They can be
+      "state events" which track details such as membership, room name,
+      and encryption algorithm or "timeline events" which are most
+      commonly messages between users.
+
+   Homeservers replicate events created by their users to all other
+   participating homeservers in the room (any server with at least 1
+   joined user) and on-demand from those same participating homeservers.
+   The details regarding how this is done specifically, and how a server
+   becomes joined to a room, are discussed later in this document.
+
+   A 2 homeserver federation might look as follows:
+
+                           +--------------------------+
+                           | @alice:hs1.example.org   |
+                           +--------------------------+
+                           | @bob:hs1.example.org     |
+                           +--------------------------+
+                           | @carol:hs1.example.org   |
+                           +-------------+------------+
+                                         |
+                               +---------+--------+
+                               |                  |
+                               |  Homeserver 1    |
+                               |  hs1.example.org |
+                               |                  |
+                               +-------+--^-------+
+                                       |  |
+                                       |  |
+                                       |  |
+                               +-------v--+-------+
+                               |                  |
+                               |  Homeserver 2    |
+                               |  hs2.example.org |
+                               |                  |
+                               +---------+--------+
+                                         |
+                           +-------------+------------+
+                           | @dan:hs2.example.org     |
+                           +--------------------------+
+                           | @erin:hs2.example.org    |
+                           +--------------------------+
+
+              Figure 1: Simple Network Architecture of Matrix
+
+   In this Figure, Alice, Bob, and Carol are on "hs1", with Dan and Erin
+   being on "hs2".  Despite both having the root domain "example.org",
+   they are considered two completely different homeservers.  Typically,
+   a homeserver would use a domain which was closer to the root (ie:
+   just "example.org"), however for illustrative purposes and having two
+   homeservers to work with, they have been "improperly" named here.
+
+   If Alice creates a room and invites Bob to it, Alice and Bob can
+   communicate without hs2 ever getting involved.  At any point in the
+   conversation, hs2 can become involved by inviting Dan or Erin and
+   them accepting that invite.  During the join process, hs1 replicates
+   the current state of the room (membership, room name, etc) to hs2 to
+   validate and persist.  After the initial replication, both
+   homeservers replicate any new content (events) from their side to the
+   other, validating it on the receiving side to ensure that content is
+   allowed to be sent.
+
+2.1.  Eventual Consistency
+
+   In federated environments it is extremely likely that a remote server
+   will be offline or unreachable for a variety of reasons, and a
+   protocol generally needs to handle this network fault without causing
+   undue inconvenience to others involved.  In Matrix, homeservers can
+   go completely offline without affecting other homeservers (and
+   therefore users) in the room - only users on that offline homeserver
+   would be affected.
+
+   During a network fault, homeservers can continue to send events to
+   the room without the involvement of the remaining homeservers.  This
+   applies to both sides of the fault: the "offline" server might have
+   had an issue where it could not send or receive from the federation
+   side, but users are still able to send events internally - the server
+   can continue to queue these events until full connectivity is
+   restored.  When network is restored between affected parties, they
+   simply send any traffic the remote side missed and the room's history
+   is merged together.  This is eventual consistency: eventually, all
+   homeservers involved will reach the same consistent state, even
+   through network issues.
+
+3.  Security Considerations
+
+   TODO Security
+
+4.  IANA Considerations
+
+   This document has no IANA actions.
+
+5.  Informative References
+
+   [I-D.rosenberg-mimi-taxonomy]
+              Rosenberg, J., "A Taxonomy for More Messaging Interop
+              (MIMI)", Work in Progress, Internet-Draft, draft-
+              rosenberg-mimi-taxonomy-00, 24 October 2022,
+              <https://datatracker.ietf.org/doc/html/draft-rosenberg-
+              mimi-taxonomy-00>.
+
+   [MxSpec]   The Matrix.org Foundation C.I.C., "Matrix Specification |
+              v1.5", 2022, <https://spec.matrix.org/v1.5/>.
+
+Acknowledgments
+
+   TODO acknowledge.
+
+Author's Address
+
+   Travis Ralston
+   The Matrix.org Foundation C.I.C.
+   Email: travisr@matrix.org
