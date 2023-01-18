@@ -80,6 +80,15 @@ normative:
     date: 2022
     author:
       - org: The Matrix.org Foundation C.I.C.
+  MSC1767:
+    target: https://github.com/matrix-org/matrix-spec-proposals/blob/4bd286e3ff5a7a4d38be75c022ff588fd2d23be8/proposals/1767-extensible-events.md
+    title: "Extensible event types & fallback in Matrix (v2)"
+    date: 2023
+    author:
+      - name: Matthew Hodgson
+        org: The Matrix.org Foundation C.I.C.
+      - name: Travis Ralston
+        org: The Matrix.org Foundation C.I.C.
 
 informative:
   MxSpec:
