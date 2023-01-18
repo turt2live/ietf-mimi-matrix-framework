@@ -120,6 +120,27 @@ network is restored between affected parties, they simply send any traffic the r
 room's history is merged together. This is eventual consistency: eventually, all homeservers involved will
 reach the same consistent state, even through network issues.
 
+# Rooms and Events
+
+TODO: This section
+
+## State Events
+
+TODO: This section
+
+## Room Versions
+
+TODO: This section
+
+# Users and Devices
+
+TODO: This section
+
+# Room Version `I.1`
+
+TODO: This section/spec.
+NOTE: Base off v10 for now, until state res v3 is available
+
 # Security Considerations
 
 TODO Security
