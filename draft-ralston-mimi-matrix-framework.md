@@ -19,11 +19,11 @@
 # Change the file extension to match the format (.xml for XML, etc...)
 #
 ###
-title: "TODO - Your title"
-abbrev: "TODO - Abbreviation"
+title: "Matrix as a Messaging Framework"
+abbrev: "Matrix as a Messaging Framework"
 category: info
 
-docname: draft-todo-yourname-protocol-latest
+docname: draft-ralston-mimi-matrix-framework-latest
 submissiontype: IETF  # also: "independent", "IAB", or "IRTF"
 number:
 date:
@@ -32,9 +32,11 @@ v: 3
 area: AREA
 workgroup: WG Working Group
 keyword:
- - next generation
- - unicorn
- - sparkling distributed ledger
+ - matrix
+ - mimi
+ - framework
+ - messaging
+ - interoperability
 venue:
   group: WG
   type: Working Group
@@ -45,9 +47,9 @@ venue:
 
 author:
  -
-    fullname: Your Name Here
-    organization: Your Organization Here
-    email: your.email@example.com
+    fullname: Travis Ralston
+    organization: The Matrix.org Foundation C.I.C.
+    email: travisr@matrix.org
 
 normative:
 
@@ -56,7 +58,9 @@ informative:
 
 --- abstract
 
-TODO Abstract
+This document describes how Matrix, an existing openly specified decentralized
+protocol for secure interoperable communications, works to create a framework
+for messaging.
 
 
 --- middle
