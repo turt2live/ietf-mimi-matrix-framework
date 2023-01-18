@@ -32,6 +32,54 @@ author:
     email: travisr@matrix.org
 
 normative:
+  MxRoomVersionGrammar:
+    target: https://spec.matrix.org/v1.5/rooms/#room-version-grammar
+    title: "Matrix Specification | v1.5 | Room Versions | Room Version Grammar"
+    date: 2022
+    author:
+      - org: The Matrix.org Foundation C.I.C.
+  MxRoomVersion10:
+    target: https://spec.matrix.org/v1.5/rooms/v10/
+    title: "Matrix Specification | v1.5 | Room Version 10"
+    date: 2022
+    author:
+      - org: The Matrix.org Foundation C.I.C.
+  MxInviteApi:
+    target: https://spec.matrix.org/v1.5/server-server-api/#inviting-to-a-room
+    title: "Matrix Specification | v1.5 | Federation API | Invites"
+    date: 2022
+    author:
+      - org: The Matrix.org Foundation C.I.C.
+  MxJoinApi:
+    target: https://spec.matrix.org/v1.5/server-server-api/#joining-rooms
+    title: "Matrix Specification | v1.5 | Federation API | Joins"
+    date: 2022
+    author:
+      - org: The Matrix.org Foundation C.I.C.
+  MxKnockApi:
+    target: https://spec.matrix.org/v1.5/server-server-api/#a-nameknocking-rooms-knocking-upon-a-room
+    title: "Matrix Specification | v1.5 | Federation API | Knocks"
+    date: 2022
+    author:
+      - org: The Matrix.org Foundation C.I.C.
+  MxLeaveApi:
+    target: https://spec.matrix.org/v1.5/server-server-api/#leaving-rooms-rejecting-invites
+    title: "Matrix Specification | v1.5 | Federation API | Leaves and Rejected Invites"
+    date: 2022
+    author:
+      - org: The Matrix.org Foundation C.I.C.
+  MxEventsApi:
+    target: https://spec.matrix.org/v1.5/server-server-api/#retrieving-events
+    title: "Matrix Specification | v1.5 | Federation API | Event Retrieval"
+    date: 2022
+    author:
+      - org: The Matrix.org Foundation C.I.C.
+  MxBackfillApi:
+    target: https://spec.matrix.org/v1.5/server-server-api/#backfilling-and-retrieving-missing-events
+    title: "Matrix Specification | v1.5 | Federation API | Backfill"
+    date: 2022
+    author:
+      - org: The Matrix.org Foundation C.I.C.
 
 informative:
   MxSpec:
@@ -40,7 +88,47 @@ informative:
     date: 2022
     author:
       - org: The Matrix.org Foundation C.I.C.
-
+  DMLS:
+    target: https://gitlab.matrix.org/matrix-org/mls-ts/-/blob/dd57bc25f6145ddedfb6d193f6baebf5133db7ed/decentralised.org
+    title: "Decentralised MLS"
+    author:
+      - name: Hubert Chathi
+        org: The Matrix.org Foundation C.I.C.
+    date: 2021
+    seriesinfo:
+      Web: https://gitlab.matrix.org/matrix-org/mls-ts/-/blob/dd57bc25f6145ddedfb6d193f6baebf5133db7ed/decentralised.org
+    format:
+      ORG: https://gitlab.matrix.org/matrix-org/mls-ts/-/blob/dd57bc25f6145ddedfb6d193f6baebf5133db7ed/decentralised.org
+  MxSecurityThreatModel:
+    target: https://spec.matrix.org/v1.5/appendices/#security-threat-model
+    title: "Matrix Specification | v1.5 | Appendices | Security Threat Model"
+    date: 2022
+    author:
+      - org: The Matrix.org Foundation C.I.C.
+  MxTransactionApi:
+    target: https://spec.matrix.org/v1.5/server-server-api/#transactions
+    title: "Matrix Specification | v1.5 | Federation API | Transactions"
+    date: 2022
+    author:
+      - org: The Matrix.org Foundation C.I.C.
+  MxDevicesApi:
+    target: https://spec.matrix.org/v1.5/server-server-api/#device-management
+    title: "Matrix Specification | v1.5 | Federation API | Device Management"
+    date: 2022
+    author:
+      - org: The Matrix.org Foundation C.I.C.
+  MxEncryptionApi:
+    target: https://spec.matrix.org/v1.5/server-server-api/#end-to-end-encryption
+    title: "Matrix Specification | v1.5 | Federation API | End-to-End Encryption"
+    date: 2022
+    author:
+      - org: The Matrix.org Foundation C.I.C.
+  MxToDeviceApi:
+    target: https://spec.matrix.org/v1.5/server-server-api/#send-to-device-messaging
+    title: "Matrix Specification | v1.5 | Federation API | Send-to-device Messaging"
+    date: 2022
+    author:
+      - org: The Matrix.org Foundation C.I.C.
 
 --- abstract
 
@@ -65,7 +153,7 @@ the remainder of the open Matrix specification out of scope.
 
 This document assumes some prior knowledge of federated or decentralized systems, such
 as the principles of email. This document additionally references concepts from
-{{?I-D.rosenberg-mimi-taxonomy}} to build common understanding.
+{{!I-D.rosenberg-mimi-taxonomy}} to build common understanding.
 
 # Overall model
 
@@ -122,38 +210,150 @@ reach the same consistent state, even through network issues.
 
 # Rooms and Events
 
-TODO: This section
+Rooms are a conceptual place where users can send and receive events. Events are sent into the room, and
+all participants with sufficient access will receive the event. Rooms have a unique identifier of
+`!opaque_localpart:example.org`, with the server name in the ID providing no meaning beyond a measure to
+ensure global uniqueness of the room. It is not possible to create rooms with another server's name in the
+ID.
+
+Rooms are not "created on" any particular server because the room is replicated to all participating
+homeservers equally. Though, at time of creation, the room might only exist on a single server until
+other participants are invited and joined (as is typical with creating a new room).
+
+Rooms are not limited in number of participants, and a "direct message" (DM, 1:1) room is simply a room
+with two users in it. Rooms can additionally have a "type" to clearly communicate their intended purpose,
+however this type does not fundamentally change that events are sent into the room for receipt by other
+users. The type typically only changes client-side rendering/handling of the room.
+
+Events are how data is exchanged over Matrix. Each client action (eg: "send a message") correlates with
+exactly one event. Each event has a type to differentiate different kinds of data, and each type SHOULD
+serve exactly one purpose. For example, an event for an image might contain a "caption" (alt text), but
+should not contain a text message to go along with the image - instead, the client would send two events
+and use a structured relationship to represent the text referencing the image.
+
+Through the use of namespaces, events can represent any piece of information. Clients looking to send
+text messages would use `m.message`, for example, while an IoT device might send `org.example.temperature`
+into the room. The namespace for event types is the same as the Java package naming conventions (reverse
+domain with purpose).
 
 ## State Events
 
-TODO: This section
+Within a room, some events are used to store key/value information: these are known as state events.
+Alongside all the normal fields for an event, they also contain a "state key" which is used to store
+similar information of the same type in the room.
+
+Such an example of a state event is membership: each member, once involved in the room in some way, has
+a dedicated `m.room.member` state event to describe their membership state (`join`, `leave`, `ban`, etc)
+and a state key of their user ID. This allows their membership to change and for other clients (or servers)
+to easily look up current membership information using the event type and predictable state key.
+
+Other examples of state events are the room name, topic, permissions, history visibility, join constraints,
+and creation information itself (all with empty/blank state keys, as there's only one useful version of
+each). Custom state events are additionally possible, just like with custom events.
 
 ## Room Versions
 
-TODO: This section
+Rooms have strict rules for what is allowed to be contained within them, and have various algorithms which
+handle different aspects of the protocol, such as conflict resolution and acceptance of events. To allow
+rooms to be improved upon through new algorithms or rules, "room versions" are employed to manage a set of
+expectations for each room. New room versions would be created and assigned as needed.
+
+Room versions do not have implicit ordering or hierarchy to them, and once in place their principles are
+immutable (preventing all existing rooms from breaking). This allows for breaking changes to be implemented
+without actually breaking existing rooms: rooms would "upgrade" to the new room version, putting their old
+copy behind them.
+
+Upgrading a room is done by creating a new room with the new version specified, and adding some referential
+information in both rooms. This is to allow clients and servers to treat the set of rooms as a single logical
+room, with history being available for clients which might wish to combine the timelines of the rooms to hide
+the mechanics of the room upgrade itself.
+
+Rooms can be upgraded any number of times, and because there's no implicit ordering for room versions it's
+possible to "upgrade" from, for example, version 2 to 1, or even 2 to 2.
+
+Later in this document is a description of a room version suitable for MIMI.
 
 # Users and Devices
 
-TODO: This section
+Each user, identified by `@localpart:example.org`, can have any number of "devices" associated with them.
+Typically linked to a logged-in session, a device has an opaque ID to identify it and usually holds
+applicable encryption keys for end-to-end encryption.
+
+Multiple algorithms for encryption are supported, though the Matrix specification currently uses its own
+Olm and Megolm algorithms for encryption. For increased interoperability, Matrix would adopt MLS
+{{?I-D.ietf-mls-protocol}} instead, likely with minor changes to support decentralized environments
+{{DMLS}}.
 
 # Room Version `I.1`
 
-TODO: This section/spec.
-NOTE: Base off v10 for now, until state res v3 is available
+The room version grammar {{MxRoomVersionGrammar}} reserves versions consisting solely of `0-9` and `.`
+for the Matrix protocol itself. For purposes of MIMI, a reservation of versions starting with `I.` and
+consiting otherwise of `0-9` and `.` is introduced.
+
+The first version under this reservation would be `I.1`, described as follows.
+
+`I.1` is based upon Matrix's Room Version 10 {{MxRoomVersion10}}, and MSC1767 {{MSC1767}} is incorporated
+to provide better content format primitives. Note that while the Matrix specification references clients
+and HTTP/JSON APIs, neither of these details are strictly relevant for this document.
+
+# Federation API
+
+In order to replicate a room across other homeservers, an API must exist to federate accordingly. This
+document defines a transport-agnostic API for federation in Matrix.
+
+Matrix aims for a "Multilateral" federation described by {{!I-D.rosenberg-mimi-taxonomy}}, where servers
+can implement their own non-standard checks on requests to ensure their server is operating safely. For
+example, while this document describes an "invite API", a server might choose to block invites from a
+particular server or user for any reason it feels is reasonable (preventing the receiving server from
+participating in the room).
+
+The major APIs needed for federation are as follows. Note that where Matrix specification already exists,
+transport details in that specification are out of scope of this document.
+
+* A way to invite users to a room (when their server isn't already participating in the room). This is
+  specified by Matrix already {{MxInviteApi}}.
+* A way to join a room the server doesn't yet already participate in. This is specified by Matrix already
+  {{MxJoinApi}}.
+* A way to knock or request an invite to a room (when the server isn't already participating in the room).
+  This is specified by Matrix already {{MxKnockApi}}.
+* A way to reject invites when the server isn't already participating in the room. This is specified by
+  Matrix already {{MxLeaveApi}}.
+* A way to retrive individual and missing events from other participating servers, subject to history
+  visbility and authorization. This is specified by Matrix already {{MxEventsApi}} {{MxBackfillApi}}.
+* A way to send events to another server. Matrix currently describes this as a transport-level detail
+  in the form of transactions {{MxTransactionApi}}.
+
+Note that the membership APIs above only apply when the server isn't already participating in the room. If
+the server is already participating, the server can simply generate an appropriate membership event for the
+user and send it to the other participating servers directly - it does not need to handshake a valid event
+with a resident server.
+
+Matrix defines many more federation APIs such as to-device messaging, ephemeral event handling (typing
+notifications, presence, etc), and encryption-specific APIs, however these are out of scope of this document.
+
+# Identity
+
+Matrix relies on identifiers being user IDs (`@user:example.org`), however in the wider scope of MIMI it
+is expected that a user might be trying to message a phone number instead of knowing the user ID. This
+document does not define how an identifier like a phone number is resolved to a user ID, but expects that
+a process exists to do so.
+
+Such a service might resolve `+1 555 123 4567` to `@15551234567:example.org`, for example.
+
+# End-to-end Encryption
+
+Encryption of events generally happens at the Content Format level, with key exchange happening over a
+transport-level concern. Matrix currently uses a dedicated set of APIs for key exchange, though with
+the adoption of MLS by MIMI there are expected changes {{MxDevicesApi}} {{MxEncryptionApi}} {{MxToDeviceApi}}.
 
 # Security Considerations
 
-TODO Security
-
+Not formally specified in this version of the document, Matrix has several threat model considerations
+to ensure feature development does not make these threats easier to achieve. They are currently specified
+in v1.5 of the Matrix specification under Section 6 of the Appendices. {{MxSecurityThreatModel}}
 
 # IANA Considerations
 
 This document has no IANA actions.
 
-
 --- back
-
-# Acknowledgments
-{:numbered="false"}
-
-TODO acknowledge.
