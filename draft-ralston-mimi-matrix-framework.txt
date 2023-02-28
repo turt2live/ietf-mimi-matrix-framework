@@ -4,8 +4,8 @@
 
 More Instant Messaging Interoperability                       T. Ralston
 Internet-Draft                          The Matrix.org Foundation C.I.C.
-Intended status: Informational                           18 January 2023
-Expires: 22 July 2023
+Intended status: Informational                          28 February 2023
+Expires: 1 September 2023
 
 
                     Matrix as a Messaging Framework
@@ -50,7 +50,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 22 July 2023.
+   This Internet-Draft will expire on 1 September 2023.
 
 Copyright Notice
 
@@ -420,7 +420,7 @@ Table of Contents
    [MSC1767]  Hodgson, M. and T. Ralston, "Extensible event types &
               fallback in Matrix (v2)", 2023, <https://github.com/
               matrix-org/matrix-spec-
-              proposals/blob/4bd286e3ff5a7a4d38be75c022ff588fd2d23be8/
+              proposals/blob/01654eb2dec7769daf1d8d7a25c04cb70a1ac9f4/
               proposals/1767-extensible-events.md>.
 
    [MxBackfillApi]
