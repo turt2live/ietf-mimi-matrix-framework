@@ -81,7 +81,7 @@ normative:
     author:
       - org: The Matrix.org Foundation C.I.C.
   MSC1767:
-    target: https://github.com/matrix-org/matrix-spec-proposals/blob/4bd286e3ff5a7a4d38be75c022ff588fd2d23be8/proposals/1767-extensible-events.md
+    target: https://github.com/matrix-org/matrix-spec-proposals/blob/01654eb2dec7769daf1d8d7a25c04cb70a1ac9f4/proposals/1767-extensible-events.md
     title: "Extensible event types & fallback in Matrix (v2)"
     date: 2023
     author:
