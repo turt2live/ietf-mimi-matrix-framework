@@ -1053,11 +1053,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">Matrix as a Messaging Framework</td>
-<td class="right">February 2023</td>
+<td class="right">March 2023</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Ralston</td>
-<td class="center">Expires 1 September 2023</td>
+<td class="center">Expires 4 September 2023</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1070,12 +1070,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ralston-mimi-matrix-framework-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2023-02-28" class="published">28 February 2023</time>
+<time datetime="2023-03-03" class="published">3 March 2023</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2023-09-01">1 September 2023</time></dd>
+<dd class="expires"><time datetime="2023-09-04">4 September 2023</time></dd>
 <dt class="label-authors">Author:</dt>
 <dd class="authors">
 <div class="author">
@@ -1127,7 +1127,7 @@ for messaging.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 1 September 2023.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 4 September 2023.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1226,10 +1226,9 @@ for messaging.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
 (VoIP) signaling, Internet of Things (IoT) communication, and bridging other existing
 communication platforms together. In this document we focus largely on the IM use case,
 however the concepts can be applied to other forms of communication as well.<a href="#section-1-1" class="pilcrow">¶</a></p>
-<p id="section-1-2">The existing Matrix specification <span>[<a href="#MxSpec" class="cite xref">MxSpec</a>]</span> is quite large as a whole, it is easily
-broken down into reusable specifications for simpler and more effective implementation.
-Here, we specify the portion of Matrix which forms the framework of messaging, leaving
-the remainder of the open Matrix specification out of scope.<a href="#section-1-2" class="pilcrow">¶</a></p>
+<p id="section-1-2">The existing Matrix specification <span>[<a href="#MxSpec" class="cite xref">MxSpec</a>]</span> is quite large, yet modular. Here, we can
+focus on the reusable portions that cover messaging, and leave the rest out of scope,
+leading to more effective implementations.<a href="#section-1-2" class="pilcrow">¶</a></p>
 <p id="section-1-3">This document assumes some prior knowledge of federated or decentralized systems, such
 as the principles of email. This document additionally references concepts from
 <span>[<a href="#I-D.rosenberg-mimi-taxonomy" class="cite xref">I-D.rosenberg-mimi-taxonomy</a>]</span> to build common understanding.<a href="#section-1-3" class="pilcrow">¶</a></p>
@@ -1317,12 +1316,11 @@ both having the root domain "example.org", they are considered two completely di
 Typically, a homeserver would use a domain which was closer to the root (ie: just "example.org"),
 however for illustrative purposes and having two homeservers to work with, they have been "improperly"
 named here.<a href="#section-2-6" class="pilcrow">¶</a></p>
-<p id="section-2-7">If Alice creates a room and invites Bob to it, Alice and Bob can communicate without hs2 ever getting
-involved. At any point in the conversation, hs2 can become involved by inviting Dan or Erin and them
-accepting that invite. During the join process, hs1 replicates the current state of the room (membership,
-room name, etc) to hs2 to validate and persist. After the initial replication, both homeservers replicate
-any new content (events) from their side to the other, validating it on the receiving side to ensure that
-content is allowed to be sent.<a href="#section-2-7" class="pilcrow">¶</a></p>
+<p id="section-2-7">If Alice creates a room and invites Bob, Alice and Bob can communicate without hs2. If Bob invites Dan
+or Erin, hs2 joins the room when either accepts the invite. During the join process hs1 replicates the
+current state of the room (membership, room name, etc) to hs2. After this initial replication, both
+homeservers replicate new events from their side to the other. This replication includes validation of
+the events on the receiving side.<a href="#section-2-7" class="pilcrow">¶</a></p>
 <div id="eventual-consistency">
 <section id="section-2.1">
         <h3 id="name-eventual-consistency">
@@ -1337,8 +1335,8 @@ remaining homeservers. This applies to both sides of the fault: the "offline" se
 issue where it could not send or receive from the federation side, but users are still able to send events
 internally - the server can continue to queue these events until full connectivity is restored. When
 network is restored between affected parties, they simply send any traffic the remote side missed and the
-room's history is merged together. This is eventual consistency: eventually, all homeservers involved will
-reach the same consistent state, even through network issues.<a href="#section-2.1-2" class="pilcrow">¶</a></p>
+room's history is merged together. This is eventual consistency: over time, all homeservers involved will
+reach a consistent state, even through network issues.<a href="#section-2.1-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
