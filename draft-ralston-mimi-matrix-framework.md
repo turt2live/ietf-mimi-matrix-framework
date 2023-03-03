@@ -155,10 +155,9 @@ Matrix is an existing open standard suitable for Instant Messaging (IM), Voice o
 communication platforms together. In this document we focus largely on the IM use case,
 however the concepts can be applied to other forms of communication as well.
 
-The existing Matrix specification {{MxSpec}} is quite large as a whole, it is easily
-broken down into reusable specifications for simpler and more effective implementation.
-Here, we specify the portion of Matrix which forms the framework of messaging, leaving
-the remainder of the open Matrix specification out of scope.
+The existing Matrix specification [MxSpec] is quite large, yet modular. Here, we can
+focus on the reusable portions that cover messaging, and leave the rest out of scope,
+leading to more effective implementations.
 
 This document assumes some prior knowledge of federated or decentralized systems, such
 as the principles of email. This document additionally references concepts from
@@ -195,12 +194,11 @@ Typically, a homeserver would use a domain which was closer to the root (ie: jus
 however for illustrative purposes and having two homeservers to work with, they have been "improperly"
 named here.
 
-If Alice creates a room and invites Bob to it, Alice and Bob can communicate without hs2 ever getting
-involved. At any point in the conversation, hs2 can become involved by inviting Dan or Erin and them
-accepting that invite. During the join process, hs1 replicates the current state of the room (membership,
-room name, etc) to hs2 to validate and persist. After the initial replication, both homeservers replicate
-any new content (events) from their side to the other, validating it on the receiving side to ensure that
-content is allowed to be sent.
+If Alice creates a room and invites Bob, Alice and Bob can communicate without hs2. If Bob invites Dan
+or Erin, hs2 joins the room when either accepts the invite. During the join process hs1 replicates the
+current state of the room (membership, room name, etc) to hs2. After this initial replication, both
+homeservers replicate new events from their side to the other. This replication includes validation of
+the events on the receiving side.
 
 ## Eventual Consistency
 
@@ -214,8 +212,8 @@ remaining homeservers. This applies to both sides of the fault: the "offline" se
 issue where it could not send or receive from the federation side, but users are still able to send events
 internally - the server can continue to queue these events until full connectivity is restored. When
 network is restored between affected parties, they simply send any traffic the remote side missed and the
-room's history is merged together. This is eventual consistency: eventually, all homeservers involved will
-reach the same consistent state, even through network issues.
+room's history is merged together. This is eventual consistency: over time, all homeservers involved will
+reach a consistent state, even through network issues.
 
 # Rooms and Events
 
