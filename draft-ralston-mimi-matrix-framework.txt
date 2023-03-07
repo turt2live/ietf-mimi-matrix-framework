@@ -4,8 +4,8 @@
 
 More Instant Messaging Interoperability                       T. Ralston
 Internet-Draft                          The Matrix.org Foundation C.I.C.
-Intended status: Informational                              3 March 2023
-Expires: 4 September 2023
+Intended status: Informational                              7 March 2023
+Expires: 8 September 2023
 
 
                     Matrix as a Messaging Framework
@@ -50,7 +50,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 4 September 2023.
+   This Internet-Draft will expire on 8 September 2023.
 
 Copyright Notice
 
@@ -74,6 +74,7 @@ Table of Contents
    3.  Rooms and Events
      3.1.  State Events
      3.2.  Room Versions
+     3.3.  Mapping Features to Events
    4.  Users and Devices
    5.  Room Version I.1
    6.  Federation API
@@ -112,10 +113,12 @@ Table of Contents
    *  Homeservers (also called "servers" for simplicity) contain user
       accounts and handle the algorithms needed to support Rooms.
 
-   *  Users produce Events into Rooms through their Homeserver.
+   *  Users produce Events which are sent into Rooms through their
+      Homeserver.
 
    *  Rooms are a defined set of algorithms which govern how all servers
-      in that room behave and treat Events.
+      in that room behave and treat Events.  They are similar to
+      channels, group chats, etc from other protocols.
 
    *  Events are pieces of information that make up a room.  They can be
       "state events" which track details such as membership, room name,
@@ -289,6 +292,88 @@ Table of Contents
    Later in this document is a description of a room version suitable
    for MIMI.
 
+3.3.  Mapping Features to Events
+
+   To achieve proper interoperability it is important to consider which
+   features the other clients (and sometimes servers) in the domain
+   support, and how to represent them using a common format.  Matrix
+   represents everything either as Events, per earlier in this section,
+   or as Ephemeral Data Units (EDUs) [MxEDU] when the data doesn't need
+   to be persisted to the room.
+
+   This structure of having everything being a genericised event or EDU
+   allows Matrix to represent nearly every messaging feature as a
+   content format problem.  Servers additionally do not generally need
+   to do much processing of events in order for the clients to operate,
+   and can even be purely store & forward-like nodes for clients.  The
+   interface between the client and server (also called the Client-
+   Server API) is deliberately out of scope for this document, but could
+   assist in edits, notifications, etc as needed.  Matrix's own Client-
+   Server API [MxClientServerApi] is not intended to be proposed for
+   MIMI clients, though may be a good reference when building an
+   exclusively Matrix-native client or server implementation.
+
+   In Matrix, the following is how some common features would be
+   represented:
+
+      +=====================+======================================+
+      | Feature             | Representation                       |
+      +=====================+======================================+
+      | Direct/Private      | A room with 2 users in it            |
+      | Messages, 1:1 chats |                                      |
+      +---------------------+--------------------------------------+
+      | Message history     | Natural consequence of Matrix's room |
+      |                     | algorithms.  Stored on the server.   |
+      +---------------------+--------------------------------------+
+      | Text messages       | Timeline events                      |
+      +---------------------+--------------------------------------+
+      | Multimedia (images, | Timeline events                      |
+      | video, etc)         |                                      |
+      +---------------------+--------------------------------------+
+      | Message edits       | Timeline events                      |
+      +---------------------+--------------------------------------+
+      | Redaction/Removal   | Timeline events                      |
+      +---------------------+--------------------------------------+
+      | Reactions           | Timeline events                      |
+      +---------------------+--------------------------------------+
+      | Replies & rich      | Timeline events                      |
+      | markup              |                                      |
+      +---------------------+--------------------------------------+
+      | VoIP                | Timeline events & WebRTC             |
+      +---------------------+--------------------------------------+
+      | Threads             | Timeline events                      |
+      +---------------------+--------------------------------------+
+      | Encryption          | Timeline events with an event        |
+      |                     | payload                              |
+      +---------------------+--------------------------------------+
+      | Typing              | EDUs                                 |
+      | notifications       |                                      |
+      +---------------------+--------------------------------------+
+      | Read receipts       | EDUs                                 |
+      +---------------------+--------------------------------------+
+      | Presence/online     | EDUs                                 |
+      | status              |                                      |
+      +---------------------+--------------------------------------+
+      | Invites/membership  | State events                         |
+      +---------------------+--------------------------------------+
+      | Room name, topic,   | State events                         |
+      | etc                 |                                      |
+      +---------------------+--------------------------------------+
+
+                                 Table 1
+
+   Note: some features have not been included for brevity.  The features
+   in the table above should represent enough of a baseline to determine
+   whether another feature would be a timeline event, state event, EDU,
+   or something else.
+
+   In Matrix's content format, updated and defined by MSC1767 [MSC1767],
+   fallbacks to rich text are common to ensure clients can particpate as
+   best as realistically possible when encountering features they don't
+   support.  For example, a client which doesn't support polls might
+   represent that poll simply as a text message and users can react to
+   it (or simply reply with more text) to "vote".
+
 4.  Users and Devices
 
    Each user, identified by @localpart:example.org, can have any number
@@ -396,7 +481,7 @@ Table of Contents
    Not formally specified in this version of the document, Matrix has
    several threat model considerations to ensure feature development
    does not make these threats easier to achieve.  They are currently
-   specified in v1.5 of the Matrix specification under Section 6 of the
+   specified in v1.6 of the Matrix specification under Section 6 of the
    Appendices.  [MxSecurityThreatModel]
 
 10.  IANA Considerations
@@ -422,49 +507,49 @@ Table of Contents
 
    [MxBackfillApi]
               The Matrix.org Foundation C.I.C., "Matrix Specification |
-              v1.5 | Federation API | Backfill", 2022,
-              <https://spec.matrix.org/v1.5/server-server-
+              v1.6 | Federation API | Backfill", 2023,
+              <https://spec.matrix.org/v1.6/server-server-
               api/#backfilling-and-retrieving-missing-events>.
 
    [MxEventsApi]
               The Matrix.org Foundation C.I.C., "Matrix Specification |
-              v1.5 | Federation API | Event Retrieval", 2022,
-              <https://spec.matrix.org/v1.5/server-server-
+              v1.6 | Federation API | Event Retrieval", 2023,
+              <https://spec.matrix.org/v1.6/server-server-
               api/#retrieving-events>.
 
    [MxInviteApi]
               The Matrix.org Foundation C.I.C., "Matrix Specification |
-              v1.5 | Federation API | Invites", 2022,
-              <https://spec.matrix.org/v1.5/server-server-api/#inviting-
+              v1.6 | Federation API | Invites", 2023,
+              <https://spec.matrix.org/v1.6/server-server-api/#inviting-
               to-a-room>.
 
    [MxJoinApi]
               The Matrix.org Foundation C.I.C., "Matrix Specification |
-              v1.5 | Federation API | Joins", 2022,
-              <https://spec.matrix.org/v1.5/server-server-api/#joining-
+              v1.6 | Federation API | Joins", 2023,
+              <https://spec.matrix.org/v1.6/server-server-api/#joining-
               rooms>.
 
    [MxKnockApi]
               The Matrix.org Foundation C.I.C., "Matrix Specification |
-              v1.5 | Federation API | Knocks", 2022,
-              <https://spec.matrix.org/v1.5/server-server-api/#a-
+              v1.6 | Federation API | Knocks", 2023,
+              <https://spec.matrix.org/v1.6/server-server-api/#a-
               nameknocking-rooms-knocking-upon-a-room>.
 
    [MxLeaveApi]
               The Matrix.org Foundation C.I.C., "Matrix Specification |
-              v1.5 | Federation API | Leaves and Rejected Invites",
-              2022, <https://spec.matrix.org/v1.5/server-server-
+              v1.6 | Federation API | Leaves and Rejected Invites",
+              2023, <https://spec.matrix.org/v1.6/server-server-
               api/#leaving-rooms-rejecting-invites>.
 
    [MxRoomVersion10]
               The Matrix.org Foundation C.I.C., "Matrix Specification |
-              v1.5 | Room Version 10", 2022,
-              <https://spec.matrix.org/v1.5/rooms/v10/>.
+              v1.6 | Room Version 10", 2023,
+              <https://spec.matrix.org/v1.6/rooms/v10/>.
 
    [MxRoomVersionGrammar]
               The Matrix.org Foundation C.I.C., "Matrix Specification |
-              v1.5 | Room Versions | Room Version Grammar", 2022,
-              <https://spec.matrix.org/v1.5/rooms/#room-version-
+              v1.6 | Room Versions | Room Version Grammar", 2023,
+              <https://spec.matrix.org/v1.6/rooms/#room-version-
               grammar>.
 
 11.2.  Informative References
@@ -485,37 +570,46 @@ Table of Contents
               <https://datatracker.ietf.org/doc/html/draft-ietf-mls-
               protocol-17>.
 
+   [MxClientServerApi]
+              The Matrix.org Foundation C.I.C., "Matrix Specification |
+              v1.6 | Client-Server API", 2023,
+              <https://spec.matrix.org/v1.6/client-server-api>.
+
    [MxDevicesApi]
               The Matrix.org Foundation C.I.C., "Matrix Specification |
-              v1.5 | Federation API | Device Management", 2022,
-              <https://spec.matrix.org/v1.5/server-server-api/#device-
+              v1.6 | Federation API | Device Management", 2023,
+              <https://spec.matrix.org/v1.6/server-server-api/#device-
               management>.
+
+   [MxEDU]    The Matrix.org Foundation C.I.C., "Matrix Specification |
+              v1.6 | Federation API | EDUs", 2023,
+              <https://spec.matrix.org/v1.6/server-server-api/#edus>.
 
    [MxEncryptionApi]
               The Matrix.org Foundation C.I.C., "Matrix Specification |
-              v1.5 | Federation API | End-to-End Encryption", 2022,
-              <https://spec.matrix.org/v1.5/server-server-api/#end-to-
+              v1.6 | Federation API | End-to-End Encryption", 2023,
+              <https://spec.matrix.org/v1.6/server-server-api/#end-to-
               end-encryption>.
 
    [MxSecurityThreatModel]
               The Matrix.org Foundation C.I.C., "Matrix Specification |
-              v1.5 | Appendices | Security Threat Model", 2022,
-              <https://spec.matrix.org/v1.5/appendices/#security-threat-
+              v1.6 | Appendices | Security Threat Model", 2023,
+              <https://spec.matrix.org/v1.6/appendices/#security-threat-
               model>.
 
    [MxSpec]   The Matrix.org Foundation C.I.C., "Matrix Specification |
-              v1.5", 2022, <https://spec.matrix.org/v1.5/>.
+              v1.6", 2023, <https://spec.matrix.org/v1.6/>.
 
    [MxToDeviceApi]
               The Matrix.org Foundation C.I.C., "Matrix Specification |
-              v1.5 | Federation API | Send-to-device Messaging", 2022,
-              <https://spec.matrix.org/v1.5/server-server-api/#send-to-
+              v1.6 | Federation API | Send-to-device Messaging", 2023,
+              <https://spec.matrix.org/v1.6/server-server-api/#send-to-
               device-messaging>.
 
    [MxTransactionApi]
               The Matrix.org Foundation C.I.C., "Matrix Specification |
-              v1.5 | Federation API | Transactions", 2022,
-              <https://spec.matrix.org/v1.5/server-server-
+              v1.6 | Federation API | Transactions", 2023,
+              <https://spec.matrix.org/v1.6/server-server-
               api/#transactions>.
 
 Author's Address

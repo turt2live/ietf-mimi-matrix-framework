@@ -1057,7 +1057,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Ralston</td>
-<td class="center">Expires 4 September 2023</td>
+<td class="center">Expires 8 September 2023</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1070,12 +1070,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ralston-mimi-matrix-framework-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2023-03-03" class="published">3 March 2023</time>
+<time datetime="2023-03-07" class="published">7 March 2023</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2023-09-04">4 September 2023</time></dd>
+<dd class="expires"><time datetime="2023-09-08">8 September 2023</time></dd>
 <dt class="label-authors">Author:</dt>
 <dd class="authors">
 <div class="author">
@@ -1127,7 +1127,7 @@ for messaging.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 4 September 2023.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 8 September 2023.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1175,6 +1175,9 @@ for messaging.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.2">
                 <p id="section-toc.1-1.3.2.2.1"><a href="#section-3.2" class="auto internal xref">3.2</a>.  <a href="#name-room-versions" class="internal xref">Room Versions</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.3">
+                <p id="section-toc.1-1.3.2.3.1"><a href="#section-3.3" class="auto internal xref">3.3</a>.  <a href="#name-mapping-features-to-events" class="internal xref">Mapping Features to Events</a></p>
 </li>
             </ul>
 </li>
@@ -1244,10 +1247,10 @@ as the principles of email. This document additionally references concepts from
 <li class="normal" id="section-2-2.1">Homeservers (also called "servers" for simplicity) contain user accounts and handle
 the algorithms needed to support Rooms.<a href="#section-2-2.1" class="pilcrow">¶</a>
 </li>
-        <li class="normal" id="section-2-2.2">Users produce Events into Rooms through their Homeserver.<a href="#section-2-2.2" class="pilcrow">¶</a>
+        <li class="normal" id="section-2-2.2">Users produce Events which are sent into Rooms through their Homeserver.<a href="#section-2-2.2" class="pilcrow">¶</a>
 </li>
         <li class="normal" id="section-2-2.3">Rooms are a defined set of algorithms which govern how all servers in that room behave
-and treat Events.<a href="#section-2-2.3" class="pilcrow">¶</a>
+and treat Events. They are similar to channels, group chats, etc from other protocols.<a href="#section-2-2.3" class="pilcrow">¶</a>
 </li>
         <li class="normal" id="section-2-2.4">Events are pieces of information that make up a room. They can be "state events" which
 track details such as membership, room name, and encryption algorithm or "timeline events"
@@ -1406,6 +1409,107 @@ possible to "upgrade" from, for example, version 2 to 1, or even 2 to 2.<a href=
 <p id="section-3.2-5">Later in this document is a description of a room version suitable for MIMI.<a href="#section-3.2-5" class="pilcrow">¶</a></p>
 </section>
 </div>
+<div id="mapping-features-to-events">
+<section id="section-3.3">
+        <h3 id="name-mapping-features-to-events">
+<a href="#section-3.3" class="section-number selfRef">3.3. </a><a href="#name-mapping-features-to-events" class="section-name selfRef">Mapping Features to Events</a>
+        </h3>
+<p id="section-3.3-1">To achieve proper interoperability it is important to consider which features the other clients (and sometimes
+servers) in the domain support, and how to represent them using a common format. Matrix represents everything
+either as Events, per earlier in this section, or as Ephemeral Data Units (EDUs) <span>[<a href="#MxEDU" class="cite xref">MxEDU</a>]</span> when the data doesn't
+need to be persisted to the room.<a href="#section-3.3-1" class="pilcrow">¶</a></p>
+<p id="section-3.3-2">This structure of having everything being a genericised event or EDU allows Matrix to represent nearly every
+messaging feature as a content format problem. Servers additionally do not generally need to do much processing
+of events in order for the clients to operate, and can even be purely store &amp; forward-like nodes for clients.
+The interface between the client and server (also called the Client-Server API) is deliberately out of scope
+for this document, but could assist in edits, notifications, etc as needed. Matrix's own Client-Server API
+<span>[<a href="#MxClientServerApi" class="cite xref">MxClientServerApi</a>]</span> is not intended to be proposed for MIMI clients, though may be a good reference when
+building an exclusively Matrix-native client or server implementation.<a href="#section-3.3-2" class="pilcrow">¶</a></p>
+<p id="section-3.3-3">In Matrix, the following is how some common features would be represented:<a href="#section-3.3-3" class="pilcrow">¶</a></p>
+<table class="center" id="table-1">
+          <caption><a href="#table-1" class="selfRef">Table 1</a></caption>
+<thead>
+            <tr>
+              <th class="text-left" rowspan="1" colspan="1">Feature</th>
+              <th class="text-left" rowspan="1" colspan="1">Representation</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">Direct/Private Messages, 1:1 chats</td>
+              <td class="text-left" rowspan="1" colspan="1">A room with 2 users in it</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">Message history</td>
+              <td class="text-left" rowspan="1" colspan="1">Natural consequence of Matrix's room algorithms. Stored on the server.</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">Text messages</td>
+              <td class="text-left" rowspan="1" colspan="1">Timeline events</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">Multimedia (images, video, etc)</td>
+              <td class="text-left" rowspan="1" colspan="1">Timeline events</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">Message edits</td>
+              <td class="text-left" rowspan="1" colspan="1">Timeline events</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">Redaction/Removal</td>
+              <td class="text-left" rowspan="1" colspan="1">Timeline events</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">Reactions</td>
+              <td class="text-left" rowspan="1" colspan="1">Timeline events</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">Replies &amp; rich markup</td>
+              <td class="text-left" rowspan="1" colspan="1">Timeline events</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">VoIP</td>
+              <td class="text-left" rowspan="1" colspan="1">Timeline events &amp; WebRTC</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">Threads</td>
+              <td class="text-left" rowspan="1" colspan="1">Timeline events</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">Encryption</td>
+              <td class="text-left" rowspan="1" colspan="1">Timeline events with an event payload</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">Typing notifications</td>
+              <td class="text-left" rowspan="1" colspan="1">EDUs</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">Read receipts</td>
+              <td class="text-left" rowspan="1" colspan="1">EDUs</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">Presence/online status</td>
+              <td class="text-left" rowspan="1" colspan="1">EDUs</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">Invites/membership</td>
+              <td class="text-left" rowspan="1" colspan="1">State events</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">Room name, topic, etc</td>
+              <td class="text-left" rowspan="1" colspan="1">State events</td>
+            </tr>
+          </tbody>
+        </table>
+<p id="section-3.3-5">Note: some features have not been included for brevity. The features in the table above should represent
+enough of a baseline to determine whether another feature would be a timeline event, state event, EDU, or
+something else.<a href="#section-3.3-5" class="pilcrow">¶</a></p>
+<p id="section-3.3-6">In Matrix's content format, updated and defined by MSC1767 <span>[<a href="#MSC1767" class="cite xref">MSC1767</a>]</span>, fallbacks to rich text are common
+to ensure clients can particpate as best as realistically possible when encountering features they don't
+support. For example, a client which doesn't support polls might represent that poll simply as a text message
+and users can react to it (or simply reply with more text) to "vote".<a href="#section-3.3-6" class="pilcrow">¶</a></p>
+</section>
+</div>
 </section>
 </div>
 <div id="users-and-devices">
@@ -1507,7 +1611,7 @@ the adoption of MLS by MIMI there are expected changes <span>[<a href="#MxDevice
       </h2>
 <p id="section-9-1">Not formally specified in this version of the document, Matrix has several threat model considerations
 to ensure feature development does not make these threats easier to achieve. They are currently specified
-in v1.5 of the Matrix specification under Section 6 of the Appendices. <span>[<a href="#MxSecurityThreatModel" class="cite xref">MxSecurityThreatModel</a>]</span><a href="#section-9-1" class="pilcrow">¶</a></p>
+in v1.6 of the Matrix specification under Section 6 of the Appendices. <span>[<a href="#MxSecurityThreatModel" class="cite xref">MxSecurityThreatModel</a>]</span><a href="#section-9-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="iana-considerations">
@@ -1537,35 +1641,35 @@ in v1.5 of the Matrix specification under Section 6 of the Appendices. <span>[<a
 <dd class="break"></dd>
 <dt id="MxBackfillApi">[MxBackfillApi]</dt>
         <dd>
-<span class="refAuthor">The Matrix.org Foundation C.I.C.</span>, <span class="refTitle">"Matrix Specification | v1.5 | Federation API | Backfill"</span>, <time datetime="2022" class="refDate">2022</time>, <span>&lt;<a href="https://spec.matrix.org/v1.5/server-server-api/#backfilling-and-retrieving-missing-events">https://spec.matrix.org/v1.5/server-server-api/#backfilling-and-retrieving-missing-events</a>&gt;</span>. </dd>
+<span class="refAuthor">The Matrix.org Foundation C.I.C.</span>, <span class="refTitle">"Matrix Specification | v1.6 | Federation API | Backfill"</span>, <time datetime="2023" class="refDate">2023</time>, <span>&lt;<a href="https://spec.matrix.org/v1.6/server-server-api/#backfilling-and-retrieving-missing-events">https://spec.matrix.org/v1.6/server-server-api/#backfilling-and-retrieving-missing-events</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="MxEventsApi">[MxEventsApi]</dt>
         <dd>
-<span class="refAuthor">The Matrix.org Foundation C.I.C.</span>, <span class="refTitle">"Matrix Specification | v1.5 | Federation API | Event Retrieval"</span>, <time datetime="2022" class="refDate">2022</time>, <span>&lt;<a href="https://spec.matrix.org/v1.5/server-server-api/#retrieving-events">https://spec.matrix.org/v1.5/server-server-api/#retrieving-events</a>&gt;</span>. </dd>
+<span class="refAuthor">The Matrix.org Foundation C.I.C.</span>, <span class="refTitle">"Matrix Specification | v1.6 | Federation API | Event Retrieval"</span>, <time datetime="2023" class="refDate">2023</time>, <span>&lt;<a href="https://spec.matrix.org/v1.6/server-server-api/#retrieving-events">https://spec.matrix.org/v1.6/server-server-api/#retrieving-events</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="MxInviteApi">[MxInviteApi]</dt>
         <dd>
-<span class="refAuthor">The Matrix.org Foundation C.I.C.</span>, <span class="refTitle">"Matrix Specification | v1.5 | Federation API | Invites"</span>, <time datetime="2022" class="refDate">2022</time>, <span>&lt;<a href="https://spec.matrix.org/v1.5/server-server-api/#inviting-to-a-room">https://spec.matrix.org/v1.5/server-server-api/#inviting-to-a-room</a>&gt;</span>. </dd>
+<span class="refAuthor">The Matrix.org Foundation C.I.C.</span>, <span class="refTitle">"Matrix Specification | v1.6 | Federation API | Invites"</span>, <time datetime="2023" class="refDate">2023</time>, <span>&lt;<a href="https://spec.matrix.org/v1.6/server-server-api/#inviting-to-a-room">https://spec.matrix.org/v1.6/server-server-api/#inviting-to-a-room</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="MxJoinApi">[MxJoinApi]</dt>
         <dd>
-<span class="refAuthor">The Matrix.org Foundation C.I.C.</span>, <span class="refTitle">"Matrix Specification | v1.5 | Federation API | Joins"</span>, <time datetime="2022" class="refDate">2022</time>, <span>&lt;<a href="https://spec.matrix.org/v1.5/server-server-api/#joining-rooms">https://spec.matrix.org/v1.5/server-server-api/#joining-rooms</a>&gt;</span>. </dd>
+<span class="refAuthor">The Matrix.org Foundation C.I.C.</span>, <span class="refTitle">"Matrix Specification | v1.6 | Federation API | Joins"</span>, <time datetime="2023" class="refDate">2023</time>, <span>&lt;<a href="https://spec.matrix.org/v1.6/server-server-api/#joining-rooms">https://spec.matrix.org/v1.6/server-server-api/#joining-rooms</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="MxKnockApi">[MxKnockApi]</dt>
         <dd>
-<span class="refAuthor">The Matrix.org Foundation C.I.C.</span>, <span class="refTitle">"Matrix Specification | v1.5 | Federation API | Knocks"</span>, <time datetime="2022" class="refDate">2022</time>, <span>&lt;<a href="https://spec.matrix.org/v1.5/server-server-api/#a-nameknocking-rooms-knocking-upon-a-room">https://spec.matrix.org/v1.5/server-server-api/#a-nameknocking-rooms-knocking-upon-a-room</a>&gt;</span>. </dd>
+<span class="refAuthor">The Matrix.org Foundation C.I.C.</span>, <span class="refTitle">"Matrix Specification | v1.6 | Federation API | Knocks"</span>, <time datetime="2023" class="refDate">2023</time>, <span>&lt;<a href="https://spec.matrix.org/v1.6/server-server-api/#a-nameknocking-rooms-knocking-upon-a-room">https://spec.matrix.org/v1.6/server-server-api/#a-nameknocking-rooms-knocking-upon-a-room</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="MxLeaveApi">[MxLeaveApi]</dt>
         <dd>
-<span class="refAuthor">The Matrix.org Foundation C.I.C.</span>, <span class="refTitle">"Matrix Specification | v1.5 | Federation API | Leaves and Rejected Invites"</span>, <time datetime="2022" class="refDate">2022</time>, <span>&lt;<a href="https://spec.matrix.org/v1.5/server-server-api/#leaving-rooms-rejecting-invites">https://spec.matrix.org/v1.5/server-server-api/#leaving-rooms-rejecting-invites</a>&gt;</span>. </dd>
+<span class="refAuthor">The Matrix.org Foundation C.I.C.</span>, <span class="refTitle">"Matrix Specification | v1.6 | Federation API | Leaves and Rejected Invites"</span>, <time datetime="2023" class="refDate">2023</time>, <span>&lt;<a href="https://spec.matrix.org/v1.6/server-server-api/#leaving-rooms-rejecting-invites">https://spec.matrix.org/v1.6/server-server-api/#leaving-rooms-rejecting-invites</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="MxRoomVersion10">[MxRoomVersion10]</dt>
         <dd>
-<span class="refAuthor">The Matrix.org Foundation C.I.C.</span>, <span class="refTitle">"Matrix Specification | v1.5 | Room Version 10"</span>, <time datetime="2022" class="refDate">2022</time>, <span>&lt;<a href="https://spec.matrix.org/v1.5/rooms/v10/">https://spec.matrix.org/v1.5/rooms/v10/</a>&gt;</span>. </dd>
+<span class="refAuthor">The Matrix.org Foundation C.I.C.</span>, <span class="refTitle">"Matrix Specification | v1.6 | Room Version 10"</span>, <time datetime="2023" class="refDate">2023</time>, <span>&lt;<a href="https://spec.matrix.org/v1.6/rooms/v10/">https://spec.matrix.org/v1.6/rooms/v10/</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="MxRoomVersionGrammar">[MxRoomVersionGrammar]</dt>
       <dd>
-<span class="refAuthor">The Matrix.org Foundation C.I.C.</span>, <span class="refTitle">"Matrix Specification | v1.5 | Room Versions | Room Version Grammar"</span>, <time datetime="2022" class="refDate">2022</time>, <span>&lt;<a href="https://spec.matrix.org/v1.5/rooms/#room-version-grammar">https://spec.matrix.org/v1.5/rooms/#room-version-grammar</a>&gt;</span>. </dd>
+<span class="refAuthor">The Matrix.org Foundation C.I.C.</span>, <span class="refTitle">"Matrix Specification | v1.6 | Room Versions | Room Version Grammar"</span>, <time datetime="2023" class="refDate">2023</time>, <span>&lt;<a href="https://spec.matrix.org/v1.6/rooms/#room-version-grammar">https://spec.matrix.org/v1.6/rooms/#room-version-grammar</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>
@@ -1582,29 +1686,37 @@ in v1.5 of the Matrix specification under Section 6 of the Appendices. <span>[<a
         <dd>
 <span class="refAuthor">Barnes, R.</span>, <span class="refAuthor">Beurdouche, B.</span>, <span class="refAuthor">Robert, R.</span>, <span class="refAuthor">Millican, J.</span>, <span class="refAuthor">Omara, E.</span>, and <span class="refAuthor">K. Cohn-Gordon</span>, <span class="refTitle">"The Messaging Layer Security (MLS) Protocol"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-mls-protocol-17</span>, <time datetime="2022-12-19" class="refDate">19 December 2022</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-mls-protocol-17">https://datatracker.ietf.org/doc/html/draft-ietf-mls-protocol-17</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="MxClientServerApi">[MxClientServerApi]</dt>
+        <dd>
+<span class="refAuthor">The Matrix.org Foundation C.I.C.</span>, <span class="refTitle">"Matrix Specification | v1.6 | Client-Server API"</span>, <time datetime="2023" class="refDate">2023</time>, <span>&lt;<a href="https://spec.matrix.org/v1.6/client-server-api">https://spec.matrix.org/v1.6/client-server-api</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="MxDevicesApi">[MxDevicesApi]</dt>
         <dd>
-<span class="refAuthor">The Matrix.org Foundation C.I.C.</span>, <span class="refTitle">"Matrix Specification | v1.5 | Federation API | Device Management"</span>, <time datetime="2022" class="refDate">2022</time>, <span>&lt;<a href="https://spec.matrix.org/v1.5/server-server-api/#device-management">https://spec.matrix.org/v1.5/server-server-api/#device-management</a>&gt;</span>. </dd>
+<span class="refAuthor">The Matrix.org Foundation C.I.C.</span>, <span class="refTitle">"Matrix Specification | v1.6 | Federation API | Device Management"</span>, <time datetime="2023" class="refDate">2023</time>, <span>&lt;<a href="https://spec.matrix.org/v1.6/server-server-api/#device-management">https://spec.matrix.org/v1.6/server-server-api/#device-management</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="MxEDU">[MxEDU]</dt>
+        <dd>
+<span class="refAuthor">The Matrix.org Foundation C.I.C.</span>, <span class="refTitle">"Matrix Specification | v1.6 | Federation API | EDUs"</span>, <time datetime="2023" class="refDate">2023</time>, <span>&lt;<a href="https://spec.matrix.org/v1.6/server-server-api/#edus">https://spec.matrix.org/v1.6/server-server-api/#edus</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="MxEncryptionApi">[MxEncryptionApi]</dt>
         <dd>
-<span class="refAuthor">The Matrix.org Foundation C.I.C.</span>, <span class="refTitle">"Matrix Specification | v1.5 | Federation API | End-to-End Encryption"</span>, <time datetime="2022" class="refDate">2022</time>, <span>&lt;<a href="https://spec.matrix.org/v1.5/server-server-api/#end-to-end-encryption">https://spec.matrix.org/v1.5/server-server-api/#end-to-end-encryption</a>&gt;</span>. </dd>
+<span class="refAuthor">The Matrix.org Foundation C.I.C.</span>, <span class="refTitle">"Matrix Specification | v1.6 | Federation API | End-to-End Encryption"</span>, <time datetime="2023" class="refDate">2023</time>, <span>&lt;<a href="https://spec.matrix.org/v1.6/server-server-api/#end-to-end-encryption">https://spec.matrix.org/v1.6/server-server-api/#end-to-end-encryption</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="MxSecurityThreatModel">[MxSecurityThreatModel]</dt>
         <dd>
-<span class="refAuthor">The Matrix.org Foundation C.I.C.</span>, <span class="refTitle">"Matrix Specification | v1.5 | Appendices | Security Threat Model"</span>, <time datetime="2022" class="refDate">2022</time>, <span>&lt;<a href="https://spec.matrix.org/v1.5/appendices/#security-threat-model">https://spec.matrix.org/v1.5/appendices/#security-threat-model</a>&gt;</span>. </dd>
+<span class="refAuthor">The Matrix.org Foundation C.I.C.</span>, <span class="refTitle">"Matrix Specification | v1.6 | Appendices | Security Threat Model"</span>, <time datetime="2023" class="refDate">2023</time>, <span>&lt;<a href="https://spec.matrix.org/v1.6/appendices/#security-threat-model">https://spec.matrix.org/v1.6/appendices/#security-threat-model</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="MxSpec">[MxSpec]</dt>
         <dd>
-<span class="refAuthor">The Matrix.org Foundation C.I.C.</span>, <span class="refTitle">"Matrix Specification | v1.5"</span>, <time datetime="2022" class="refDate">2022</time>, <span>&lt;<a href="https://spec.matrix.org/v1.5/">https://spec.matrix.org/v1.5/</a>&gt;</span>. </dd>
+<span class="refAuthor">The Matrix.org Foundation C.I.C.</span>, <span class="refTitle">"Matrix Specification | v1.6"</span>, <time datetime="2023" class="refDate">2023</time>, <span>&lt;<a href="https://spec.matrix.org/v1.6/">https://spec.matrix.org/v1.6/</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="MxToDeviceApi">[MxToDeviceApi]</dt>
         <dd>
-<span class="refAuthor">The Matrix.org Foundation C.I.C.</span>, <span class="refTitle">"Matrix Specification | v1.5 | Federation API | Send-to-device Messaging"</span>, <time datetime="2022" class="refDate">2022</time>, <span>&lt;<a href="https://spec.matrix.org/v1.5/server-server-api/#send-to-device-messaging">https://spec.matrix.org/v1.5/server-server-api/#send-to-device-messaging</a>&gt;</span>. </dd>
+<span class="refAuthor">The Matrix.org Foundation C.I.C.</span>, <span class="refTitle">"Matrix Specification | v1.6 | Federation API | Send-to-device Messaging"</span>, <time datetime="2023" class="refDate">2023</time>, <span>&lt;<a href="https://spec.matrix.org/v1.6/server-server-api/#send-to-device-messaging">https://spec.matrix.org/v1.6/server-server-api/#send-to-device-messaging</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="MxTransactionApi">[MxTransactionApi]</dt>
       <dd>
-<span class="refAuthor">The Matrix.org Foundation C.I.C.</span>, <span class="refTitle">"Matrix Specification | v1.5 | Federation API | Transactions"</span>, <time datetime="2022" class="refDate">2022</time>, <span>&lt;<a href="https://spec.matrix.org/v1.5/server-server-api/#transactions">https://spec.matrix.org/v1.5/server-server-api/#transactions</a>&gt;</span>. </dd>
+<span class="refAuthor">The Matrix.org Foundation C.I.C.</span>, <span class="refTitle">"Matrix Specification | v1.6 | Federation API | Transactions"</span>, <time datetime="2023" class="refDate">2023</time>, <span>&lt;<a href="https://spec.matrix.org/v1.6/server-server-api/#transactions">https://spec.matrix.org/v1.6/server-server-api/#transactions</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>
