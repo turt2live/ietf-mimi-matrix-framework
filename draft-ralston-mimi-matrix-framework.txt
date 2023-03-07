@@ -360,7 +360,7 @@ Table of Contents
       | etc                 |                                      |
       +---------------------+--------------------------------------+
 
-                                 Table 1
+            Table 1: Examples of IM features mapped to Matrix
 
    Note: some features have not been included for brevity.  The features
    in the table above should represent enough of a baseline to determine
