@@ -343,8 +343,8 @@ Table of Contents
       +---------------------+--------------------------------------+
       | Threads             | Timeline events                      |
       +---------------------+--------------------------------------+
-      | Encryption          | Timeline events with an event        |
-      |                     | payload                              |
+      | Encryption          | Encrypted timeline events containing |
+      |                     | an encrypted plaintext event payload |
       +---------------------+--------------------------------------+
       | Typing              | EDUs                                 |
       | notifications       |                                      |
