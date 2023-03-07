@@ -138,6 +138,18 @@ informative:
     date: 2023
     author:
       - org: The Matrix.org Foundation C.I.C.
+  MxClientServerApi:
+    target: https://spec.matrix.org/v1.6/client-server-api
+    title: "Matrix Specification | v1.6 | Client-Server API"
+    date: 2023
+    author:
+      - org: The Matrix.org Foundation C.I.C.
+  MxEDU:
+    target: https://spec.matrix.org/v1.6/server-server-api/#edus
+    title: "Matrix Specification | v1.6 | Federation API | EDUs"
+    date: 2023
+    author:
+      - org: The Matrix.org Foundation C.I.C.
 
 --- abstract
 
@@ -169,9 +181,9 @@ At a high level, Matrix consists of 4 primary concepts:
 
 * Homeservers (also called "servers" for simplicity) contain user accounts and handle
   the algorithms needed to support Rooms.
-* Users produce Events into Rooms through their Homeserver.
+* Users produce Events which are sent into Rooms through their Homeserver.
 * Rooms are a defined set of algorithms which govern how all servers in that room behave
-  and treat Events.
+  and treat Events. They are similar to channels, group chats, etc from other protocols.
 * Events are pieces of information that make up a room. They can be "state events" which
   track details such as membership, room name, and encryption algorithm or "timeline events"
   which are most commonly messages between users.
@@ -279,6 +291,51 @@ Rooms can be upgraded any number of times, and because there's no implicit order
 possible to "upgrade" from, for example, version 2 to 1, or even 2 to 2.
 
 Later in this document is a description of a room version suitable for MIMI.
+
+## Mapping Features to Events
+
+To achieve proper interoperability it is important to consider which features the other clients (and sometimes
+servers) in the domain support, and how to represent them using a common format. Matrix represents everything
+either as Events, per earlier in this section, or as Ephemeral Data Units (EDUs) {{MxEDU}} when the data doesn't
+need to be persisted to the room.
+
+This structure of having everything being a genericised event or EDU allows Matrix to represent nearly every
+messaging feature as a content format problem. Servers additionally do not generally need to do much processing
+of events in order for the clients to operate, and can even be purely store & forward-like nodes for clients.
+The interface between the client and server (also called the Client-Server API) is deliberately out of scope
+for this document, but could assist in edits, notifications, etc as needed. Matrix's own Client-Server API
+{{MxClientServerApi}} is not intended to be proposed for MIMI clients, though may be a good reference when
+building an exclusively Matrix-native client or server implementation.
+
+In Matrix, the following is how some common features would be represented:
+
+| Feature | Representation |
+| ------- | -------------- |
+| Direct/Private Messages, 1:1 chats | A room with 2 users in it |
+| Message history | Natural consequence of Matrix's room algorithms. Stored on the server. |
+| Text messages | Timeline events |
+| Multimedia (images, video, etc) | Timeline events |
+| Message edits | Timeline events |
+| Redaction/Removal | Timeline events |
+| Reactions | Timeline events |
+| Replies & rich markup | Timeline events |
+| VoIP | Timeline events & WebRTC |
+| Threads | Timeline events |
+| Encryption | Timeline events with an event payload |
+| Typing notifications | EDUs |
+| Read receipts | EDUs |
+| Presence/online status | EDUs |
+| Invites/membership | State events |
+| Room name, topic, etc | State events |
+
+Note: some features have not been included for brevity. The features in the table above should represent
+enough of a baseline to determine whether another feature would be a timeline event, state event, EDU, or
+something else.
+
+In Matrix's content format, updated and defined by MSC1767 {{MSC1767}}, fallbacks to rich text are common
+to ensure clients can particpate as best as realistically possible when encountering features they don't
+support. For example, a client which doesn't support polls might represent that poll simply as a text message
+and users can react to it (or simply reply with more text) to "vote".
 
 # Users and Devices
 
