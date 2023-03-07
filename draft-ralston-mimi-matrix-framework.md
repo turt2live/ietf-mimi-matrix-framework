@@ -33,51 +33,51 @@ author:
 
 normative:
   MxRoomVersionGrammar:
-    target: https://spec.matrix.org/v1.5/rooms/#room-version-grammar
-    title: "Matrix Specification | v1.5 | Room Versions | Room Version Grammar"
-    date: 2022
+    target: https://spec.matrix.org/v1.6/rooms/#room-version-grammar
+    title: "Matrix Specification | v1.6 | Room Versions | Room Version Grammar"
+    date: 2023
     author:
       - org: The Matrix.org Foundation C.I.C.
   MxRoomVersion10:
-    target: https://spec.matrix.org/v1.5/rooms/v10/
-    title: "Matrix Specification | v1.5 | Room Version 10"
-    date: 2022
+    target: https://spec.matrix.org/v1.6/rooms/v10/
+    title: "Matrix Specification | v1.6 | Room Version 10"
+    date: 2023
     author:
       - org: The Matrix.org Foundation C.I.C.
   MxInviteApi:
-    target: https://spec.matrix.org/v1.5/server-server-api/#inviting-to-a-room
-    title: "Matrix Specification | v1.5 | Federation API | Invites"
-    date: 2022
+    target: https://spec.matrix.org/v1.6/server-server-api/#inviting-to-a-room
+    title: "Matrix Specification | v1.6 | Federation API | Invites"
+    date: 2023
     author:
       - org: The Matrix.org Foundation C.I.C.
   MxJoinApi:
-    target: https://spec.matrix.org/v1.5/server-server-api/#joining-rooms
-    title: "Matrix Specification | v1.5 | Federation API | Joins"
-    date: 2022
+    target: https://spec.matrix.org/v1.6/server-server-api/#joining-rooms
+    title: "Matrix Specification | v1.6 | Federation API | Joins"
+    date: 2023
     author:
       - org: The Matrix.org Foundation C.I.C.
   MxKnockApi:
-    target: https://spec.matrix.org/v1.5/server-server-api/#a-nameknocking-rooms-knocking-upon-a-room
-    title: "Matrix Specification | v1.5 | Federation API | Knocks"
-    date: 2022
+    target: https://spec.matrix.org/v1.6/server-server-api/#a-nameknocking-rooms-knocking-upon-a-room
+    title: "Matrix Specification | v1.6 | Federation API | Knocks"
+    date: 2023
     author:
       - org: The Matrix.org Foundation C.I.C.
   MxLeaveApi:
-    target: https://spec.matrix.org/v1.5/server-server-api/#leaving-rooms-rejecting-invites
-    title: "Matrix Specification | v1.5 | Federation API | Leaves and Rejected Invites"
-    date: 2022
+    target: https://spec.matrix.org/v1.6/server-server-api/#leaving-rooms-rejecting-invites
+    title: "Matrix Specification | v1.6 | Federation API | Leaves and Rejected Invites"
+    date: 2023
     author:
       - org: The Matrix.org Foundation C.I.C.
   MxEventsApi:
-    target: https://spec.matrix.org/v1.5/server-server-api/#retrieving-events
-    title: "Matrix Specification | v1.5 | Federation API | Event Retrieval"
-    date: 2022
+    target: https://spec.matrix.org/v1.6/server-server-api/#retrieving-events
+    title: "Matrix Specification | v1.6 | Federation API | Event Retrieval"
+    date: 2023
     author:
       - org: The Matrix.org Foundation C.I.C.
   MxBackfillApi:
-    target: https://spec.matrix.org/v1.5/server-server-api/#backfilling-and-retrieving-missing-events
-    title: "Matrix Specification | v1.5 | Federation API | Backfill"
-    date: 2022
+    target: https://spec.matrix.org/v1.6/server-server-api/#backfilling-and-retrieving-missing-events
+    title: "Matrix Specification | v1.6 | Federation API | Backfill"
+    date: 2023
     author:
       - org: The Matrix.org Foundation C.I.C.
   MSC1767:
@@ -92,9 +92,9 @@ normative:
 
 informative:
   MxSpec:
-    target: https://spec.matrix.org/v1.5/
-    title: "Matrix Specification | v1.5"
-    date: 2022
+    target: https://spec.matrix.org/v1.6/
+    title: "Matrix Specification | v1.6"
+    date: 2023
     author:
       - org: The Matrix.org Foundation C.I.C.
   DMLS:
@@ -109,33 +109,33 @@ informative:
     format:
       ORG: https://gitlab.matrix.org/matrix-org/mls-ts/-/blob/dd57bc25f6145ddedfb6d193f6baebf5133db7ed/decentralised.org
   MxSecurityThreatModel:
-    target: https://spec.matrix.org/v1.5/appendices/#security-threat-model
-    title: "Matrix Specification | v1.5 | Appendices | Security Threat Model"
-    date: 2022
+    target: https://spec.matrix.org/v1.6/appendices/#security-threat-model
+    title: "Matrix Specification | v1.6 | Appendices | Security Threat Model"
+    date: 2023
     author:
       - org: The Matrix.org Foundation C.I.C.
   MxTransactionApi:
-    target: https://spec.matrix.org/v1.5/server-server-api/#transactions
-    title: "Matrix Specification | v1.5 | Federation API | Transactions"
-    date: 2022
+    target: https://spec.matrix.org/v1.6/server-server-api/#transactions
+    title: "Matrix Specification | v1.6 | Federation API | Transactions"
+    date: 2023
     author:
       - org: The Matrix.org Foundation C.I.C.
   MxDevicesApi:
-    target: https://spec.matrix.org/v1.5/server-server-api/#device-management
-    title: "Matrix Specification | v1.5 | Federation API | Device Management"
-    date: 2022
+    target: https://spec.matrix.org/v1.6/server-server-api/#device-management
+    title: "Matrix Specification | v1.6 | Federation API | Device Management"
+    date: 2023
     author:
       - org: The Matrix.org Foundation C.I.C.
   MxEncryptionApi:
-    target: https://spec.matrix.org/v1.5/server-server-api/#end-to-end-encryption
-    title: "Matrix Specification | v1.5 | Federation API | End-to-End Encryption"
-    date: 2022
+    target: https://spec.matrix.org/v1.6/server-server-api/#end-to-end-encryption
+    title: "Matrix Specification | v1.6 | Federation API | End-to-End Encryption"
+    date: 2023
     author:
       - org: The Matrix.org Foundation C.I.C.
   MxToDeviceApi:
-    target: https://spec.matrix.org/v1.5/server-server-api/#send-to-device-messaging
-    title: "Matrix Specification | v1.5 | Federation API | Send-to-device Messaging"
-    date: 2022
+    target: https://spec.matrix.org/v1.6/server-server-api/#send-to-device-messaging
+    title: "Matrix Specification | v1.6 | Federation API | Send-to-device Messaging"
+    date: 2023
     author:
       - org: The Matrix.org Foundation C.I.C.
 
@@ -357,7 +357,7 @@ the adoption of MLS by MIMI there are expected changes {{MxDevicesApi}} {{MxEncr
 
 Not formally specified in this version of the document, Matrix has several threat model considerations
 to ensure feature development does not make these threats easier to achieve. They are currently specified
-in v1.5 of the Matrix specification under Section 6 of the Appendices. {{MxSecurityThreatModel}}
+in v1.6 of the Matrix specification under Section 6 of the Appendices. {{MxSecurityThreatModel}}
 
 # IANA Considerations
 
