@@ -321,7 +321,7 @@ In Matrix, the following is how some common features would be represented:
 | Replies & rich markup | Timeline events |
 | VoIP | Timeline events & WebRTC |
 | Threads | Timeline events |
-| Encryption | Timeline events with an event payload |
+| Encryption | Encrypted timeline events containing an encrypted plaintext event payload |
 | Typing notifications | EDUs |
 | Read receipts | EDUs |
 | Presence/online status | EDUs |
