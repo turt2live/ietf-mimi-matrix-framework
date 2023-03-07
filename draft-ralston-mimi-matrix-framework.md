@@ -327,6 +327,7 @@ In Matrix, the following is how some common features would be represented:
 | Presence/online status | EDUs |
 | Invites/membership | State events |
 | Room name, topic, etc | State events |
+{: #table-feature-matrix title="Examples of IM features mapped to Matrix"}
 
 Note: some features have not been included for brevity. The features in the table above should represent
 enough of a baseline to determine whether another feature would be a timeline event, state event, EDU, or
