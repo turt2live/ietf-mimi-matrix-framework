@@ -189,9 +189,9 @@ At a high level, Matrix consists of 4 primary concepts:
   which are most commonly messages between users.
 
 Homeservers replicate events created by their users to all other participating homeservers
-in the room (any server with at least 1 joined user) and on-demand from those same participating
-homeservers. The details regarding how this is done specifically, and how a server becomes
-joined to a room, are discussed later in this document.
+in the room (any server with at least 1 joined user). Similarly, events are retrieved
+on-demand from those same participating homeservers. The details regarding how this is done
+specifically, and how a server becomes joined to a room, are discussed later in this document.
 
 A 2 homeserver federation might look as follows:
 
