@@ -303,7 +303,7 @@ This structure of having everything being a genericised event or EDU allows Matr
 messaging feature as a content format problem. Servers additionally do not generally need to do much processing
 of events in order for the clients to operate, and can even be purely store & forward-like nodes for clients.
 The interface between client and server (also called the Client-Server API) is out of scope for this document.
-The Matrix Client-Server API {{MxClientServerAPI}} may be a good reference for building a Matrix-native client
+The Matrix Client-Server API {{MxClientServerApi}} may be a good reference for building a Matrix-native client
 or server implementation.
 
 In Matrix, the following is how some common features would be represented:
