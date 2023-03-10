@@ -4,8 +4,8 @@
 
 More Instant Messaging Interoperability                       T. Ralston
 Internet-Draft                          The Matrix.org Foundation C.I.C.
-Intended status: Informational                              8 March 2023
-Expires: 9 September 2023
+Intended status: Informational                             10 March 2023
+Expires: 11 September 2023
 
 
                     Matrix as a Messaging Framework
@@ -50,7 +50,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 9 September 2023.
+   This Internet-Draft will expire on 11 September 2023.
 
 Copyright Notice
 
@@ -308,12 +308,10 @@ Table of Contents
    content format problem.  Servers additionally do not generally need
    to do much processing of events in order for the clients to operate,
    and can even be purely store & forward-like nodes for clients.  The
-   interface between the client and server (also called the Client-
-   Server API) is deliberately out of scope for this document, but could
-   assist in edits, notifications, etc as needed.  Matrix's own Client-
-   Server API [MxClientServerApi] is not intended to be proposed for
-   MIMI clients, though may be a good reference when building an
-   exclusively Matrix-native client or server implementation.
+   interface between client and server (also called the Client-Server
+   API) is out of scope for this document.  The Matrix Client-Server API
+   [MxClientServerApi] may be a good reference for building a Matrix-
+   native client or server implementation.
 
    In Matrix, the following is how some common features would be
    represented:
