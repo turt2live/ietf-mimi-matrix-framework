@@ -4,8 +4,8 @@
 
 More Instant Messaging Interoperability                       T. Ralston
 Internet-Draft                          The Matrix.org Foundation C.I.C.
-Intended status: Informational                             10 March 2023
-Expires: 11 September 2023
+Intended status: Informational                             13 March 2023
+Expires: 14 September 2023
 
 
                     Matrix as a Messaging Framework
@@ -50,7 +50,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 11 September 2023.
+   This Internet-Draft will expire on 14 September 2023.
 
 Copyright Notice
 
@@ -492,6 +492,13 @@ Table of Contents
 
 11.1.  Normative References
 
+   [I-D.ralston-mimi-messaging-requirements]
+              Ralston, T., "Requirements of Interoperable Messaging",
+              Work in Progress, Internet-Draft, draft-ralston-mimi-
+              messaging-requirements-00, 13 March 2023,
+              <https://datatracker.ietf.org/doc/html/draft-ralston-mimi-
+              messaging-requirements-00>.
+
    [I-D.rosenberg-mimi-taxonomy]
               Rosenberg, J., "A Taxonomy for More Messaging Interop
               (MIMI)", Work in Progress, Internet-Draft, draft-
@@ -569,9 +576,6 @@ Table of Contents
               Draft, draft-ietf-mls-protocol-17, 19 December 2022,
               <https://datatracker.ietf.org/doc/html/draft-ietf-mls-
               protocol-17>.
-
-   [I-D.ralston-mimi-messaging-requirements]
-              "*** BROKEN REFERENCE ***".
 
    [MxClientServerApi]
               The Matrix.org Foundation C.I.C., "Matrix Specification |
