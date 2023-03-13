@@ -4,7 +4,7 @@
 
 More Instant Messaging Interoperability                       T. Ralston
 Internet-Draft                          The Matrix.org Foundation C.I.C.
-Intended status: Informational                             13 March 2023
+Intended status: Standards Track                           13 March 2023
 Expires: 14 September 2023
 
 
@@ -573,9 +573,9 @@ Table of Contents
               Barnes, R., Beurdouche, B., Robert, R., Millican, J.,
               Omara, E., and K. Cohn-Gordon, "The Messaging Layer
               Security (MLS) Protocol", Work in Progress, Internet-
-              Draft, draft-ietf-mls-protocol-17, 19 December 2022,
+              Draft, draft-ietf-mls-protocol-18, 13 March 2023,
               <https://datatracker.ietf.org/doc/html/draft-ietf-mls-
-              protocol-17>.
+              protocol-18>.
 
    [MxClientServerApi]
               The Matrix.org Foundation C.I.C., "Matrix Specification |
