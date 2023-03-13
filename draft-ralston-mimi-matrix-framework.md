@@ -296,7 +296,7 @@ Later in this document is a description of a room version suitable for MIMI.
 
 To achieve proper interoperability it is important to consider which features the other clients (and sometimes
 servers) in the domain support, and how to represent them using a common format
-{{?I-D.ralston-mimi-messaging-requirements}}. Matrix represents everything either as Events, per earlier in this
+{{!I-D.ralston-mimi-messaging-requirements}}. Matrix represents everything either as Events, per earlier in this
 section, or as Ephemeral Data Units (EDUs) {{MxEDU}} when the data doesn't need to be persisted to the room.
 
 This structure of having everything being a genericised event or EDU allows Matrix to represent nearly every
